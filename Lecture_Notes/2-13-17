@@ -1,0 +1,33 @@
+Think about data for final project:
+  -What questions can be answered?
+
+How to develop cod:
+Write in words the application and output of the function
+  -Write tests for the function
+
+Decide upon an algorithm
+  -Implement step by step in English
+  -Test it using paper and pencil
+
+Translate into code
+  -Decompose into functions
+  -Test Program
+
+Test cases for airport program:
+-One flight has really long delay
+-Only flight that originate from "SEA"
+-1 Day of datafile
+-One day missing
+
+Steps in English:
+-Iterate through the months
+-Iterate through destinations
+-Iterate through days and sum the delay times, divide by number of destinations
+-Create a dictionary that stores avg delay time to the key do_analysis
+-Print day and avg.
+
+Actual Steps:
+-Read in the csv file, determine which airports
+-Calculate/Create lists of days and delays
+-Write the txt file
+-Plot the graph

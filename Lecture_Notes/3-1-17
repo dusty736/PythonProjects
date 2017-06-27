@@ -1,0 +1,32 @@
+Class before final!!!
+
+Two types of abstraction:
+Abstraction: Ignoring/hiding some aspects of a thing
+  -In programming, ignore everything except the specification or interface
+  -The program designer decides which details to hide and to expose
+
+Procedural Abstraction:
+  -Define a procedure/function specification
+  -Hide implementation details
+
+Data Abstraction:
+  -Define what the datatype represents
+  -Define how to create, query, and modify
+  -Hide implementation details of representation and of operations
+    -Also called "encapsulation" or "information hiding"
+
+
+IN CLIENT PROGRAM WORD COUNT:
+  wc2
+  print out
+    -total # of words
+    print xc2.total_Words()
+
+    -# of times 'hippo' occurs
+    print wc2.getcount('hippo')
+
+  Vehicle Program
+  def use_gas(self, gallons):
+    '''Remove gallons from current amount of gas in Vehicle's tank'''
+    self.current_gas = self.current_gas - gallons
+    

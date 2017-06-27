@@ -1,0 +1,52 @@
+HW 1 due 1-11-17
+
+Today's Agenda
+-Loops
+  -Nested loops
+  -Range
+-If Statements
+
+Nested Loops
+for i in [0,1]:
+  print "Outer", i
+  for j in [2,3]:
+    print " Inner", j
+    print " Sum", i+j
+  print"Outer", i
+
+This loop contains 3 statements in the outer loop.
+
+Output:
+Outer 0
+  Inner 2
+  Sum 2
+  Inner 3
+  Sum 3
+Outer 0
+Outer 1
+  Inner 2
+  Sum 3
+  Inner 3
+  Sum 4
+Outer 1
+
+Product of a list:
+result = 1
+for element in mylist:
+  result - result * element
+
+Maximum of a list:
+curr_max = mylist[0]
+
+
+
+
+
+If Statements:
+val = -10
+# calculate absolute value of val
+if val < 0:
+  result = - val
+else:
+  result = val
+print result

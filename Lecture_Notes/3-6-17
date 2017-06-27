@@ -1,0 +1,121 @@
+List Comprehensions:
+
+
+Explicitly write out the whole thing:
+squares = [1, 4, 9, 16, ...]
+Write a loop to create it:
+for i in range(11):
+  squares...
+Write a list comprehension:
+squares = [i * i for in range(11)]
+
+ftemps = [celsius_to_farenheit(c) for c in ctemps]
+
+[(x,y) for x in seq1 for y in seq2 if sim(x, y) > threshold]
+
+Enumerate:
+for index, value in enumerate(the_list):
+     print str(index) + ': ' + str(value)
+
+the_list = range(10)
+new_list = [i + v for i, v in enumerate(the_list) ]
+
+Ternary Assignment:
+
+flag = "under"
+if x > threshold:
+    flag = "over"
+
+
+flag = "Over" if x > threshold else "Under"
+
+Example problems
+Problem 1:
+num_list = [4 * i ** 2 - 4 for i in range(-11, 10)]
+
+Problem 2:
+num_list = [i / float(sum(num_list)) for i in num_list]
+
+Problem 3:
+matrix = []
+
+
+
+
+
+Recursion:
+
+Three recursive algorithms:
+-Sorting
+-GCD (greatest common divisor)
+-Exponentiation
+
+Sorting:
+def quicksort(thelist): (Broken)
+  """Return a sorted version of thelist."""
+  pivot = thelist[0]
+  smaller = [elt for elt in thelist if elt < pivot]
+  larger = [elt for elt in thelist if elt > pivot]
+  return smaller + [pivot] + larger
+
+print quicksort([3, 1, 4, 1, 5, 9])
+
+NOW:
+def quicksort(thelist):
+  """Return a sorted version of thelist."""
+  if len(thelist) < 2:    # Called the base case
+    return thelist
+  pivot = thelist[0]
+  smaller = [elt for elt in thelist if elt < pivot]
+  pivots = [elt for elt in thelist if elt == pivot]
+  larger = [elt for elt in thelist if elt > pivot]
+  return quicksort(smaller) + pivots + qucksort(larger)
+  # keep calling quicksort with smaller and smaller lists until the base case is reached.
+
+
+3-8-17
+If the problem is small: "base case"
+If the problem is large: "Recursive case"
+  -Divide the problem, creating one or more smaller problems
+
+Recursion expresses the essence of divide and conquer
+  -Solve a smaller subproblems
+
+Decomposition for recursion:
+-List algorithms:
+  Base case: short (or empty) list
+  Recursive case: Process
+    -All but the first element of the list, or
+      -The smaller subproblem is only a tiny bit smaller
+      -The postprocessing combines the first element of the list with the recursive method.
+
+
+
+A recursive algorithm always has:
+  -a base case
+  -an inductive or recursive case
+    -solves a smaller problem
+  -What happens if you leave out the base case?
+    -Keeps going until nothing is returned.
+  -
+
+Base case must come first in the code
+
+Recursion vs Iteration
+-Any recursion algorithm can be re-implemented as a loop instead
+-Any loop can be implemented as recursion instead
+
+-Sometimes recursion is clearer and simpler
+-Sometimes iteration is clearer and simpler
+
+Algorithmic complexity:
+Speed of algorithms
+
+-Usually, this does not matter
+-Correctness is more important than speed
+
+-Compute time is much cheaper than human time
+-The cost of your program depends on:
+  -Time to write and verify it
+  -Time to run it
+-An inefficient program may give you results faster

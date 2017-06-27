@@ -1,0 +1,27 @@
+Testing Programs:
+Using a smaller input file can test the correctness of an entire program.
+
+To test individual functions use assert statements to match known output
+to actual output.
+Called unit testing (Little chunks of program)
+Use asserts after a function.
+
+The best approach to writing tests is to write them before you write the code.
+If you write the tests first, you will think more about the functionality
+than about a particular implementation.  Look for ways to break code, and prevent.
+
+test for abs(val)
+-test a negative, positive, and zero.
+-test float and int
+
+test for find_max(lst)
+-test a list with negative numbers and positive numbers.
+-Test the number of iterations vs the length of the list.
+-0, 1, -2
+-Test a list of all one number.
+-Test an empty list
+
+rows5 = [
+  {'State': 'WA', 'Dem': '1.0', 'Rep': '0.1', 'Date': 'Nov 05 2008', 'Pollster': 'PPP'},
+  {'State': 'CA', 'Dem': '2.1', 'Rep': '3.2', 'Date': 'Nov 04 2008', 'Pollster': 'PPP'},
+  {'State': 'OR', 'Dem': '9.1', 'Rep': '7.1', 'Date': 'Nov 05 2008', 'Pollster': 'IPSOS'}]

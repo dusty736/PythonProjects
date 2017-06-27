@@ -1,0 +1,49 @@
+Agenda
+Lists
+File I/o
+
+List Insertion
+mylist.append(x)
+-Extend the list by inserting x at the end
+mylist.extend(l)
+-Extend the list by appending all the items in the argument list
+mylist.insert(i, x)
+-insert an item before the given position
+-a.insert(0, x) inserts at the front of the list
+-a.insert(len(a), x) is equivalent to a.append(x)
+
+lst3 = lst2 doesn't make a copy.  a change to 3 is a change to 2
+lst3 = lst2[:] makes a copy of lst2
+
+Example of pulling from lists.  Need to pull a single value, not a list.
+["four", "score", "and", "seven", "years"][2]
+'and'
+
+["four", "score", "and", "seven", "years"][[0,2,3]]
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+TypeError: list indices must be integers, not list
+
+["four", "score", "and", "seven", "years"][0,2,3]
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+TypeError: list indices must be integers, not tuple
+
+["four", "score", "and", "seven", "years"][[0,2,3][1]]
+'and'
+
+Example:
+def index(somelist, value):
+  num_words = 0
+  for word in somelist:
+    if word == value:
+      return num_words
+    num_words = num_words + 1
+
+gettysburg = ["four", "score", "and", "seven", "years"]
+print index(gettysburg, "and")
+print index(gettysburg, "years")
+
+
+HW3 DEMO
+Look at recording

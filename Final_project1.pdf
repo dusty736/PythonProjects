@@ -1,0 +1,491 @@
+# Name: Dustin Burnham
+# UW NetID: dusty736
+# Section: AB
+# CSE 160
+# Homework 7: Final Project
+
+import json
+from matplotlib import pyplot as plt
+
+
+"""
+This is the SQL query used on the SDSS database.
+
+select 
+PhotoObjAll.objID, PhotoObjAll.ra, PhotoObjAll.dec, Photoz.z,  Photoz.zErr
+
+from 
+PhotoObjAll, Photoz
+
+where 
+PhotoObjAll.objID = Photoz.objID AND
+PhotoObjAll.ra BETWEEN 153.909418 and 154.19418 AND
+PhotoObjAll.dec BETWEEN 47.01204 and 47.21204
+"""
+
+################################################################################
+# Problem 1: Read and clean Analyzed Quasar Spectrum
+################################################################################
+ 
+def read_spectrum_data(filename):
+    """Purpose
+    
+    Parameters:
+        filename:
+    
+    Returns:
+        
+    """
+
+    with open(filename) as data_file:    
+        data = json.load(data_file)
+    return data
+    
+def spectrum_to_list(spectrum_dict):
+    """Purpose
+    
+    Parameters:
+        spectrum_dict:
+    
+    Returns:
+        
+    
+    """
+    
+    systems=['z0.00000_MW']
+    components=[]
+
+
+    for cmp in spectrum_dict["cmps"]:
+        cmp_dict=spectrum_dict["cmps"][str(cmp)]
+        cmp_data=''
+        if cmp[-2:]=="HI":
+            systems.append(str(cmp))
+        cmp_data+=str(cmp)+';'
+        cmp_data+=str(cmp_dict["Reliability"])+';'
+        if cmp_dict["Comment"]=='':
+            cmp_data+='None;'
+        else:
+            cmp_data+=str(cmp_dict["Comment"])+';'
+        cmp_data+=str(cmp_dict["Nfit"])+';'
+        cmp_data+=str(cmp_dict["bfit"])+';'
+        components.append(cmp_data)
+    return components
+    
+    
+def system_dict(spectrum_lst):
+    """Purpose
+    
+    Parameters:
+        spectrum_lst:
+    
+    Returns:
+    
+    """
+    
+    system_z = {}
+    
+    for system in spectrum_lst:
+        system_data = {}
+        system = system.split(';')
+        ID = system[0].replace('z', '')
+        ID = ID.replace('-', '')
+        ID = ID.split('_')
+        redshift = float(ID[0])
+        element = ID[1]
+        system_data['element'] = element
+        system_data['Classification'] = system[1]
+        system_data['Comment'] = system[2]
+        system_data['Column Density'] = float(system[3])
+        system_data['Doppler Profile'] = float(system[4])
+        system_z[redshift] = system_data
+    return system_z
+    
+def element_dict(z_dict):
+    """Purpose
+    
+    Parameters:
+        z_dict:
+    
+    Returns:
+    
+    """
+    
+    elt_dict = {}
+    z_lst = []
+    for z in z_dict:
+        z_lst.append(z)
+
+    for z in z_lst:
+        z_up = z + 0.002
+        z_down = z - 0.002
+        elt_lst = []
+        for z_elt in z_dict:
+            if z_elt > z_down and z_elt < z_up:
+                elt_lst.append(z_dict[z_elt]['element'])
+        elt_dict[z] = elt_lst
+    return elt_dict
+            
+
+################################################################################
+# Problem 2: Determine where the Galaxies are located
+################################################################################      
+    
+      
+def Hydrogen_z(z_dict):
+    """Purpose
+    
+    Parameters:
+        z_dict:
+    
+    Returns:
+    
+    """
+    
+    z_lst = []
+    
+    for z in z_dict:
+        if z_dict[z]['element'] == 'HI':
+            z_lst.append(z)
+    return z_lst
+    
+def Hydrogen_Nc(z_dict):
+    """Purpose
+    
+    Parameters:
+        z_dict:
+    
+    Returns:
+    
+    """
+    
+    Nc_lst = []
+    
+    for z in z_dict:
+        if z_dict[z]['element'] == 'HI':
+            Nc_lst.append(z_dict[z]['Column Density'])
+    return Nc_lst
+    
+def Hydrogen_sys(z_dict):
+    """Purpose
+    
+    Parameters:
+        z_dict:
+    
+    Returns:
+    
+    """
+    
+    H_dict = {}
+    
+    for z in z_dict:
+        if z_dict[z]['element'] == 'HI':
+            if z_dict[z]['Column Density'] > 14.0:
+                H_dict[z] = z_dict[z]['Column Density']
+                #print "Search for candidate galaxies at redshift:" + str(z)
+    return H_dict
+
+
+################################################################################
+# Problem 3: Read and clean Galaxy list data from SDSS
+################################################################################
+        
+        
+def Read_in_Galaxies(Galaxy_filename):
+    """Purpose
+    
+    Parameters:
+        Galaxy_filename:
+    
+    Returns:
+    
+    """
+   
+    Gal_lst = []
+    Obj_data = open(Galaxy_filename)
+    for Galaxy in Obj_data:
+        Gal_lst.append(Galaxy)
+    Obj_data.close()                    
+    return Gal_lst     
+
+
+def Galaxies_dict(Galaxy_lst):
+    """Purpose
+    
+    Parameters:
+        Galaxy_lst:
+    
+    Returns:
+    
+    """
+    
+    data = []
+    param_name = Galaxy_lst[0].split("\t")
+    num_par = len(param_name) - 1
+    param_name[num_par] = param_name[num_par].replace('\n', "") 
+    for Obj in range(1,len(Galaxy_lst)):
+        Gal_dict = {}
+        Galaxy = Galaxy_lst[Obj].split("\t")
+        Galaxy[num_par] = Galaxy[num_par].replace('\n', "")
+        for param_num in range(num_par + 1):
+            if param_name[param_num] != 'objID':
+                Gal_dict[param_name[param_num]] = float(Galaxy[param_num])
+            else:
+                Gal_dict[param_name[param_num]] = Galaxy[param_num]
+        Redshift_range(Gal_dict)
+        data.append(Gal_dict)
+    return data     
+    
+    
+def Galaxy_Candidates(H_dict, Gal_dict):
+    """Purpose
+    
+    Parameters:
+        H_dict:
+        Gal_dict:
+    
+    Returns:
+    
+    """
+    
+    H_lst = []
+    for z in H_dict:
+        H_lst.append(z)
+        
+    H_sys = {}
+    for z in sorted(H_lst):
+        min_z = 10
+        Galaxy = None
+        z_lst = []
+        for obj in Gal_dict:
+            upper = obj['z_up']
+            lower = obj['z_down']
+            z_poss = {}
+            if z < upper and z > lower:
+                z_poss['ID'] = obj['objID']
+                z_poss['z'] = obj['z']
+                z_poss['RA'] = obj['ra']
+                z_poss['dec'] = obj['dec']
+                z_poss['upper_z'] = upper
+                z_poss['lower_z'] = lower
+                z_poss['zErr'] = obj['zErr']
+                z_lst.append(z_poss)           
+                H_sys[z] = z_lst
+    return H_sys
+    
+    
+################################################################################
+# Problem 4: Calculate the Actual Distance between QSO and galaxy
+################################################################################    
+    
+    
+def Redshift_range(Gal_dict):
+    """Purpose
+    
+    Parameters:
+        Gal_dict:
+    
+    Returns:
+    
+    """
+      
+    Gal_dict['z_up'] = Gal_dict['z'] + Gal_dict['zErr']
+    Gal_dict['z_down'] = Gal_dict['z'] - Gal_dict['zErr']
+    return Gal_dict
+    
+    
+def angular_distance(ra, dec, QSO_ra=154.09418, QSO_dec=47.11204):
+    """Purpose
+    
+    Parameters:
+        ra:
+        dec:
+        QSO_ra:
+        QSO_dec:
+    
+    Returns:
+    
+    """
+    
+    ang_distance = (abs(ra - QSO_ra) ** 2 + abs(dec - QSO_dec) ** 2) ** 1/2
+    return ang_distance * 3600
+    
+    
+def redshift_to_comdistance(z):
+    """Purpose
+    
+    Parameters:
+        z:
+    
+    Returns:
+    
+    """
+    
+    com_distance = z * (3 * (10 **5)) / 69.6
+    return com_distance
+    
+    
+def cos_scale(z, com_distance):
+    """Purpose
+    
+    Parameters:
+        z:
+        com_distance:
+    
+    Returns:
+    
+    """
+    
+    ang_dist = (1 / (1 + z)) * com_distance
+    Scale = ang_dist / 206.26408
+    return Scale
+    
+    
+def Distance_of_Candidates(Candidates_dict):
+    """Purpose
+    
+    Parameters:
+        Candidates_dict:
+    
+    Returns:
+    
+    """
+    
+    ra = Candidates_dict['RA']
+    dec = Candidates_dict['dec']
+    ang_dist = angular_distance(ra, dec, QSO_ra=154.09418, QSO_dec=47.11204)
+    return ang_dist
+    
+            
+def Narrow_by_Dist(Candidates_dict):
+    """Purpose
+    
+    Parameters:
+        Candidates_dict:
+    
+    Returns:
+    
+    """
+    
+    Narrowed_dict = {}
+    for z in Candidates_dict:
+        min_dist = 1000
+        for cand in Candidates_dict[z]:
+            ang = Distance_of_Candidates(cand)
+            cand['ang_dist'] = ang
+            if ang < min_dist:
+                min_dist = ang
+                Narrowed_dict[z] = cand
+    return Narrowed_dict
+        
+    
+def Calc_actual_dist(Candidates_dict):
+    """Purpose
+    
+    Parameters:
+        Candidates_dict:
+    
+    Returns:
+    
+    """
+    
+    for z in Candidates_dict:
+        cand_z = Candidates_dict[z]['z']
+        co_move_dist = redshift_to_comdistance(cand_z)
+        scale = cos_scale(cand_z, co_move_dist)
+        Actual_dist = scale * Candidates_dict[z]['ang_dist']
+        Candidates_dict[z]['kpc'] = Actual_dist * 1000
+    return Candidates_dict
+    
+
+################################################################################
+# Problem 5: Display Findings and Plotting Galaxy/Gas Systems
+################################################################################
+
+
+def display_results(final_dict, elt_dict,Candidates_dict):
+    """Purpose
+    
+    Parameters:
+        final_dict:
+        elt_dict:
+        Candidates_dict:
+    
+    Returns:
+    
+    """
+    
+    for z in sorted(final_dict):
+        Galaxy_z = final_dict[z]['z']
+        Z_err = Candidates_dict[z]['zErr']
+        Galaxy_ID = final_dict[z]['ID']
+        Galaxy_Halo = final_dict[z]['kpc']
+        Element_set = sorted(list(set(elt_dict[z])))
+        print "Gas Location (Redshift):", z
+        print "Galaxy Location (Redshift):", Galaxy_z, "+=", Z_err
+        print "Galaxy ID (SDSS Catalogue):", Galaxy_ID
+        print "Galaxy Halo (kpc):", Galaxy_Halo
+        print "Elements Found:", Element_set
+        print ""
+        
+    
+def plot_results(final_dict,Candidates_dict,H_z,H_nc):
+    """Purpose
+    
+    Parameters:
+        final_dict:
+        Candidates_dict:
+        H_z:
+        H_nc:
+    
+    Returns:
+    
+    """
+    
+    Galaxy_z = []
+    up_zErr = []
+    down_zErr = []
+    Galaxy_err = []
+    for z in final_dict:
+        Galaxy_z.append(final_dict[z]['z'])
+        up = Candidates_dict[z]['zErr'] + final_dict[z]['z']
+        down = final_dict[z]['z'] - Candidates_dict[z]['zErr']
+        Galaxy_err.append(Candidates_dict[z]['zErr'])
+        up_zErr.append(up)
+        down_zErr.append(down)
+        
+    height = [max(H_nc) + 0.5 for i in range(len(Galaxy_z))]
+        
+    plt.clf()
+    plt.xlabel('Redshift')
+    plt.ylabel('Column Density')
+    plt.xlim(0,0.8)
+    plt.ylim(min(H_nc) - 0.5, max(H_nc) + 0.5)
+    plt.title('HI column density', fontsize = 20)
+    plt.bar(H_z, H_nc, 0.003, color = "green")
+    plt.bar(Galaxy_z, height, 0.003, color = "Red")
+    #plt.bar(up_zErr, height, 0.003, color = "yellow")
+    #plt.bar(down_zErr, height, 0.003, color = "black")
+    plt.legend()
+    plt.show()
+    
+      
+def main():    
+        
+    spectrum_dict = read_spectrum_data('dusty3_J1016+4706.json')
+    dat_lst = spectrum_to_list(spectrum_dict)
+    dat_dict = system_dict(dat_lst)
+    elements = element_dict(dat_dict)
+    H_z = Hydrogen_z(dat_dict)
+    H_nc = Hydrogen_Nc(dat_dict)
+    Hydrogen = Hydrogen_sys(dat_dict)
+    Galaxies_lst = Read_in_Galaxies('J1016_Galaxies.txt')
+    Galaxy_dict = Galaxies_dict(Galaxies_lst)
+    Search = Galaxy_Candidates(Hydrogen, Galaxy_dict)
+    narrow = Narrow_by_Dist(Search)
+    dist_dict = Calc_actual_dist(narrow)
+    display_results(dist_dict, elements, narrow)
+    plot_results(dist_dict,narrow,H_z,H_nc)
+
+if __name__ == "__main__":
+    main()

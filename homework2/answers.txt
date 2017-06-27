@@ -1,0 +1,69 @@
+Name: Dustin Burnham
+CSE 160
+Homework 2
+
+For each problem that requires a written answer, write (or copy-and-paste)
+your answers in this file.  When you are done, you should have replaced all
+the ellipses (the three dots) with your answers.
+
+At the end, you will turn in this file and your modified
+dna_analysis.py program.
+
+
+Problem 1:
+
+(No answers in this file.)
+
+Problem 2:
+
+GC-content: 0.43029262963
+
+Problem 3:
+
+a.) Commenting out "gc_count = 0" created an error in the output
+because the variable gc_count in the loop was no longer defined.
+b.) Commenting out "nucleotides = filename_to_string(filename)"
+created the error that the name nucleotides was not defined.
+This means that the loop that counts the content of the dna
+wasn't able to run.
+
+Problem 4:
+
+AT-content: 0.56970737037
+
+Problem 5:
+
+G count: 5738773
+C count: 5879128
+A count: 7701287
+T count: 7680812
+
+Problem 6:
+
+Sum of G+C+A+T counts: 26980735
+Total count: 27000000
+Length of nucleotides: 27000000
+
+The sum of the G+C+A+T counts is less than the total
+count and length of the nucleotides because there
+are outliers that are not defined by G,C,A, or T
+that are included in the total count/ length of the
+nucleotides that are not included in the counts of each
+individual nucleotide.
+
+Because the count of G+C+A+T represents the actual count
+of the individual G, C, A, and T nucleotides, the sum_counts
+variable that contains G+C+A+T should be used in the denominator
+of our GC, and AT contents.
+
+Problem 7:
+
+AT/GC Ratio: 1.32234161747
+
+Problem 8:
+
+moderate GC content
+
+Collaboration:
+
+None

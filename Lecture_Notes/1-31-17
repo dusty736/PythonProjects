@@ -1,0 +1,101 @@
+Agenda:
+Mutability
+Tuples
+Debugging
+
+list1 = ["e1", "e2", "e3", "e4"]
+list2 = list1 # Links lists
+list3 = list(list1) # Makes a copy, same as "list1[:]"
+list1.append("e5")
+list2.append("e6")
+list3.append("e7")
+
+Reassigning a variable changes a binding, it does not change (mutate) any object
+
+Reassigning is always done via the syntax:
+myvar = expr
+size = 6
+list2 = list1
+
+Mutating (changing) an object does not change any variable binding
+left_expr = right_expr
+expr.method(args...)
+Examples:
+mylist[3] = myval
+mylist.append(myvalue)
+
+Example:
+def no_change(lst):
+ """does NOT modify what lst refers to,
+ instead re-binds lst"""
+ lst = lst + [99] #changes what lst is bound to.  [1,2,99]
+def change_val(lst):
+ """modifies object lst refers to"""
+ lst[0] = 13
+def append_val(lst):
+ """modifies object lst refers to"""
+ lst.append(99)
+lst2 = [1, 2]
+no_change(lst2)
+change_val(lst2)
+append_val(lst2)
+
+
+
+Tuple Operations
+Constructors
+– Literals: Use parentheses
+("four", "score", "and", "seven", "years")
+– (3, 1) + (4, 1) => (3, 1, 4, 1)
+Queries
+– Just like lists
+Mutators
+– None!
+
+
+Immutable datatype
+• An immutable datatype is one that doesn’t have
+any functions in the third category:
+– Constructors
+– Queries
+– Mutators: None!
+• Immutable datatypes:
+– int, float, boolean, string, function, tuple, frozenset
+• Mutable datatypes:
+– list, dictionary, set
+
+Remember: Not every value may be
+placed in a set
+• Set elements must be immutable values
+– int, float, bool, string, tuple
+– not: list, set, dictionary
+• The set itself is mutable (e.g. we can add and remove
+elements)
+• Goal: only set operations change the set
+– after “myset.add(x)”, x in myset True
+– y in myset always evaluates to the same value
+Both conditions should hold until myset is changed
+• Mutable elements can violate these goals
+• Aside: frozenset must contain immutable values and is
+itself immutable (cannot add and remove elements)
+
+Example
+def updaterecord(record, position, value):
+ """Change the value at the given position"""
+ record[position] = value # doesn't support item assignment (Not mutable)
+mylist = [1,2,3]
+mytuple = (1,2,3)
+updaterecord(mylist, 1, 10)
+print mylist
+updaterecord(mytuple, 1, 10)
+print mytuple
+
+Example: Write a function
+Write a function that will return the set of a user's friends with a
+particular user removed from that set.
+
+def friends_without(graph, user1, user2):
+  friend_set = friends(graph, user1)
+  print friend_set
+  friend_set = friend_set - set([user2])
+  return friend_set

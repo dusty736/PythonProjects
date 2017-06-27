@@ -1,0 +1,21 @@
+Name: Dustin Burnham
+CSE 160
+Homework 6
+
+For each problem that requires a written answer, write (or copy-and-paste)
+your answers in this file.  When you are done, you should have replaced all
+the ellipses (the three dots) with your answers.
+
+Answer to Problem 7:
+
+The p value for the Iranian election is consistently hovering between 0.03 and 0.04.  Because the measured p value is below the 5% level, I will say that the result is statistically significant and I reject the null hypothesis that the Iranian was not fraudulent.
+
+Answer to Problem 8:
+
+The p values for the United States election is consistently hovering above 0.9.  This is far above the 5% level, I can say with confidence that there is no statistical significance against the null hypothesis that the US election was genuine.
+
+Collaboration:
+
+None
+
+

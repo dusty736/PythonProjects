@@ -1,0 +1,64 @@
+Agenda:
+Sorting
+HW4
+Midterm Next Friday
+
+Sorted vs Sort:
+-Sorted: Returns a list
+-Sort: Sorts
+
+Sort Key is a function that can be called on each list element to extract
+
+
+names = ["Isaac Newton", "Fig Newton", "Niels Bohr"]
+
+def last_name(str):
+  temp = str.split(" ") # Splits the list at white spaces.
+  return temp[1]
+
+print 'last_name("Isaac Newton"):', last_name("Isaac Newton")
+Returns Newton
+
+print sorted(names, key = last_name)
+Returns ["Niels Bohr", "Fig Newton", "Isaac Newton"] # First name breaks tie
+
+print sorted(names, key = len)
+Returns ['Fig Newton', 'Niels Bohr', 'Isaac Newton'] # Length
+
+
+def last_name_len(name):
+  return len(last_name(name))
+
+print sorted(names, key = last_name_len)
+
+
+import operator
+
+operator.itemgetter(2, 7, 9, 10)
+
+student_score = ('Robert', 8)
+itemgetter(0)(student_score)
+returns Robert
+itemgetter(1)(student_score)
+returns 8
+
+student_scores =
+[('Robert', 8), ('Alice', 9), ('Tina', 7)]
+
+Sort the list by name:
+sorted(student_scores, key=itemgetter(0))
+
+Sort the list by score:
+sorted(student_scores, key=itemgetter(1))
+
+sorted(student_scores, key=itemgetter(1,0)) # The 1 is top priority, then 0
+
+sorted(student_scores, key=itemgetter(0)) # The 1 is top priority, then the 0
+sorted(student_scores, key=itemgetter(1)) # sorting last is what's important
+
+print sorted(student_scores, key=itmegetter(1), reverse=True)
+
+
+Debugging Tools
+
+assert and print statements

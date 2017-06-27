@@ -1,0 +1,85 @@
+Agenda:
+sets(briefly)
+Dictionaries
+
+Sets:
+HAVE NO ORDER
+
+-Direct mathematical syntax:
+odd = { 1, 3, 5}
+
+-Construct from a list:
+odd = set( [1, 3, 5] )
+empty = set( [] )
+
+z = {5, 6, 7, 8}
+y = {1, 2, 3, 1, 5}
+k = z & y #Intersection of sets z and y (5)
+j = z | y #Union of sets z and y (1,2,3,5,6,7,8)
+m = y - z #Removes anything in y that is in z (1, 2, 3)
+n = z - y #Removes anything in z that is in y (8,6,7)
+
+p = z #Links sets.  Not a copy.
+q = set(z) #Makes a copy of z.
+z.add(9) #Adds 9 to set p and z.
+
+Not every value may be place in a set
+Set elements must be immutable values
+-int, float, bool, string, tuple
+-not: list, set, dictionary
+
+The set itself is mutable (e.g. we can add and remove elements)
+
+Goal: only set operations change the set-after "myset.add(x):, x in myset => true
+Mutable elements can violate these goals
+
+word_set  = set()
+silly_file = open("silly.txt", "r")
+for line in silly_file:
+  #print line
+  word_list = line.split()
+  print word_list
+  print set(word_list)
+
+silly_file.close()
+print len(word_set), word_set
+
+Dictionaries:
+Dictionaries or mappings
+A dictionary maps each key to a value
+Order does not matter
+
+Given a key, can look up a value
+  -Given a value, cannot look up its key
+No duplicate keys
+  -Two or more keys may pat to the same value
+
+d = { }
+d = dict()
+
+us_wars_by_end = {
+  1783: "Revolutionary",
+  1848: "Mexican",
+  1865: "Civil" }
+
+atomic_number = {"H":1, "Fe",26, "Au",79}
+atomic_number["Au"]
+79
+atomic_number["B"] returns that there is no key "B"
+atomic_number.keys() # can do for values and items
+returns ['H', 'Au', 'Fe']
+
+Iterating through a dictionary
+for elements_name in in atomic_number.keys():
+  print element_name
+
+for (element_name, element_number) in atomic_number.items():
+  print "name:", element_name, "number:", element_number
+
+
+Example:
+squares = { 1:1, 2:4, 3:9, 4:16 }
+squares[3] + squares[3] #Evaluates to 18
+squares[3+3] #Key error because there is no key of 6.
+squares[2] + squares[2] #Evaluates to 8
+squares[2 + 2] #Evaluates to 16

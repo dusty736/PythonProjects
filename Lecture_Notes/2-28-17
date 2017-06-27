@@ -1,0 +1,41 @@
+Data Abstraction
+
+Recall the design exercise:
+  -Created a module or library: a set of related functions
+
+Two types of abstraction
+Abstraction: Ignoring/hiding some aspects of a thing
+  -In programming, ignore everything except the specification or interface
+  -The program designer decides which details to hide and to expose
+
+Procedural abstraction:
+  -Defines a procedure/function specification
+  -Hide implementation details
+
+Data abstraction:
+  -Define what the datatype represents
+  -Define how to create, query, and modify
+  -Hide implementation details of representation and of operations
+
+Describing word counts:
+  -"dictionary mapping each word in filename to its frequency (raw count) in the
+  file, represented as an integer"
+  -"WordCounts"
+
+Which do you prefer? Why?
+
+from networkx import Graph, DiGraph # Graph is a class of networkx
+g = Graph() # g is an object
+
+A class creates a namespace for:
+  -Variables to hold the data
+  -Functions to create, query, and modify
+
+A class defines a datatype:
+  -An object is a value of that type
+  -Comparison to other types:
+    -Type is int, value is 22
+    -g = nx.Graph()
+    -Type of g is Graph, value of g is the object that g is bound to
+    -Type is the class, value is an object also known as an instantiation
+    or instance of that type

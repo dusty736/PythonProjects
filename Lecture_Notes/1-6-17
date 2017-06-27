@@ -1,0 +1,71 @@
+HW 1 due next Wednesday
+
+-Python is a calculator
+-Variables store values
+-Types of values: Int, Float, String, Booleans
+-Programs
+-Loops
+
+Booleans
+-True or False
+22 > 4 returns True
+3 > 5 returns False
+-Operators include not, and, or
+
+Strings
+-text
+-empty
+-addition: 'Ruth' + "Anderson" returns 'RuthAnderson'
+Addition needs to have the same type.
+
+Type Conversion
+-float(15) returns 15.0
+-str(15) returns '15'
+
+Program is a sequence of instructions.
+The print statement always prints one line.
+Write 0 or more expressions after print separated by commas.
+print 10, 11 returns 10 11
+
+For Loops
+for f in [30,40,50,60,70]:
+    print f, (f - 32) / 9.0 * 5
+print "all done"
+Returns:
+30 -1.11111111111
+40 4.44444444444
+50 10.0
+60 15.5555555556
+70 21.1111111111
+all done
+
+for char in "happy":
+    print char
+Returns:
+h
+a
+p
+p
+y
+
+for i in [1, 2, 3]:
+    print "Hi there!"
+Returns:
+Hi there! 1
+Hi there! 2
+Hi there! 3
+
+for i in [3, 4, 5]:
+    print "Start body"
+    print i
+    print i * i
+Returns:
+Start body
+3
+9
+Start body
+4
+16
+Start body
+5
+25

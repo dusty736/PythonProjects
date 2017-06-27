@@ -1,0 +1,53 @@
+Agenda:
+File I/O
+Aside HW3
+Sets
+
+File I/O
+Files store information when a program i snot running
+Operations:
+open, close, read, and write
+
+A file object represents data on your disk drive
+A filename states where to find the data on your disk drive
+
+myfile = open("datafile.dat") Gets data from datafile.dat and saves to myfile
+myfile = open("datafile.dat", "r") opens for reading
+
+for line_of_text in myfile:
+  process line_of_text
+
+Writing to a file in python
+myfile = open("output.dat", "w")
+
+Example:
+num_words = 0
+big_word_list = []
+silly_file = open("silly.txt", "r")
+for line in silly_file:
+  #print line,
+  word_list = line.split()
+  #print word_list
+  num_words += len(word_list)
+  big_word_list.extend(word_list)
+
+silly_file.close()
+print "total words in file: ", num_words
+print big_word_list
+
+HW3:
+Look at recording
+
+Sets: A collection of values without duplicates or order.
+Use curly braces now {}
+No duplicates
+
+Ex:
+x = {1, 2, 3, 2, 1}
+Returns
+x
+{1, 2, 3}
+
+Construct from a list:
+odd = set( [1, 3, 5] )
+empty = set( [] )
